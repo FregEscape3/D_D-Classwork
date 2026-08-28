@@ -81,7 +81,7 @@ public class MyArrayList<E> {
 			if (newSize == 0) {
 				newSize = 1;
 			}
-
+			@SuppressWarnings("unchecked")
 			E[] largerArray = (E[]) new Object[newSize];
 			for (int i = 0; i < this.objectCount; i++) {
 				largerArray[i] = this.internalArray[i];

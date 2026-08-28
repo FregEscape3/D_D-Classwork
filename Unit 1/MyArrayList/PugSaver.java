@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class PugSaver {
 
@@ -11,7 +10,7 @@ public class PugSaver {
 		ArrayList<Dog> temp = new ArrayList<Dog>();
 		for (int i = 0; i < list.size(); i++) {
 			Dog dog = list.get(i);
-			if (dog == null || dog.getBreed().equals("Pug")) {
+			if (dog == null || !dog.getBreed().equals("Pug")) {
 				temp.add(dog);
 			}
 		}
