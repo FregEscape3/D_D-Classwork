@@ -26,16 +26,19 @@ public class MyArrayList<E> {
 		this.internalArray = (E[]) new Object[initialCapacity];
 	}
 
+	// O(1)
 	/* Return the number of active slots in the array list */
 	public int size() {
 		return this.objectCount;
 	}
 
+	// O(1)
 	/* Are there zero objects in the array list? */
 	public boolean isEmpty() {
 		return this.objectCount == 0;
 	}
 
+	// O(1)
 	/* Get the index-th object in the list. */
 	public E get(int index) {
 		if (index < 0 || index >= this.objectCount) {
@@ -44,6 +47,7 @@ public class MyArrayList<E> {
 		return internalArray[index];
 	}
 
+	// O(1)
 	/* Replace the object at index with obj. returns object that was replaced. */
 	public E set(int index, E obj) {
 		if (index < 0 || index >= this.objectCount) {
@@ -54,6 +58,7 @@ public class MyArrayList<E> {
 		return output;
 	}
 
+	// O(n)
 	/*
 	 * Returns true if this list contains an element equal to obj;
 	 * otherwise returns false.
