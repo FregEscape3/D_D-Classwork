@@ -38,6 +38,15 @@ public class ArrayListTester {
             test4.add("bum bum bum sahur");
         }
         System.out.println(test4.toString());
+
+        MyArrayList<String> list = new MyArrayList<String>();
+        int numThings = 10000000;
+        for (int i = 0; i < numThings; i++) {
+            list.add("Hi");
+        }
+        System.out.println("done formulating list");
+        String bums = list.toString();
+        System.out.println("done toStringing");
     }
 
     public static void fillStringArray(MyArrayList<String> stringList) throws FileNotFoundException {
