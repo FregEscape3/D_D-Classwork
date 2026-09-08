@@ -20,6 +20,8 @@ public class ArrayListTester {
         fillStringArray(test1);
         fillIntArray(test2);
         fillBoolArray(test3);
+        test3.clear();
+        System.out.println(test3.toString());
         if (test4.isEmpty()) {
             System.out.println("lol");
         }

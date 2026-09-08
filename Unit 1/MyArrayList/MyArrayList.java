@@ -145,6 +145,13 @@ public class MyArrayList<E> {
 		return false;
 	}
 
+	public void clear() {
+		for (int i = 0; i < objectCount; i++) {
+			internalArray[i] = null;
+		}
+		objectCount = 0;
+	}
+
 	/*
 	 * For testing; your string should output as "[X, X, X, X, ...]" where X, X, X,
 	 * X, ... are the elements in the ArrayList.
