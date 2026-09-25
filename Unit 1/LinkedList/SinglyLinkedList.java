@@ -15,11 +15,15 @@ public class SinglyLinkedList<E> {
 	// all elements from the array values, in the same order
 	public SinglyLinkedList(E[] values) {
 		if (values.length == 0) {
-			head = null;
-			tail = null;
+			System.out.println("You are a bum for this.");
+			return;
 		}
-		for (int i = 0; i < values.length; i++) {
-
+		head = new ListNode<>(values[0]);
+		tail = head;
+		for (int i = 1; i < values.length; i++) {
+			ListNode<E> node = new ListNode<>(values[i]);
+			tail.setNext(node);
+			tail = node;
 		}
 	}
 
