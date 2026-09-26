@@ -36,6 +36,9 @@ public class SinglyLinkedList<E> {
 	}
 
 	public ListNode<E> getNode(int index) {
+		if (this.isEmpty()) {
+			return null;
+		}
 		if (index < 0 || index > this.size() - 1) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -129,11 +132,17 @@ public class SinglyLinkedList<E> {
 
 	// Returns the i-th element.
 	public E get(int i) {
+		if (i < 0 || i > this.size() - 1) {
+			throw new IndexOutOfBoundsException();
+		}
 		return this.getNode(i).getValue();
 	}
 
 	// Replaces the i-th element with obj and returns the old value.
 	public E set(int i, E obj) {
+		if (i < 0 || i > this.size() - 1) {
+			throw new IndexOutOfBoundsException();
+		}
 		ListNode<E> node = getNode(i);
 		E oldValue = node.getValue();
 		node.setValue(obj);
@@ -164,7 +173,7 @@ public class SinglyLinkedList<E> {
 	// Removes the i-th element and returns its value.
 	// Decrements the size of the list by one.
 	public E remove(int i) {
-		if (i < 0 || i > this.size()) {
+		if (i < 0 || i > this.size() - 1) {
 			throw new IndexOutOfBoundsException();
 		}
 		if (i == 0) {
