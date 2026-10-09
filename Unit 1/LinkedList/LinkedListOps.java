@@ -13,4 +13,20 @@ public class LinkedListOps {
         }
         return false;
     }
+
+    // remove node's value from any LinkedList it might be in
+    public static void removeValue(ListNode<String> node) {
+        node.setValue(node.getNext().getValue());
+        node.setNext(node.getNext().getNext());
+    }
+
+    // prints the value of every node in the singly linked list with the given head,
+    // but in reverse (for a singlylinkedlist), print one on each line.
+    public static void printListInReverse(ListNode<String> head) {
+        if (head == null) {
+            return;
+        }
+        printListInReverse(head.getNext());
+        System.out.println(head.getValue());
+    }
 }
