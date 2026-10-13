@@ -76,7 +76,19 @@ public class Recursion {
 	// "bc", "abc"
 	// Order is your choice
 	public static void printSubsets(String str) {
+		printSubsetofChar(str, "");
+	}
 
+	// We start with the empty set and then choose to include or exclude the first
+	// char, and then do the same for the next char, and then repeat until you don't
+	// have any more
+	public static void printSubsetofChar(String str, String subset) {
+		if (str.length() == 0) {
+			System.out.println(subset);
+			return;
+		}
+		printSubsetofChar(str.substring(1), subset);
+		printSubsetofChar(str.substring(1), subset + str.charAt(0));
 	}
 
 	// List contains a single String to start.
@@ -86,13 +98,65 @@ public class Recursion {
 	// "cab", "cba"
 	// Order is your choice
 	public static void printPermutations(String str) {
+		findPermutations(str, "");
+	}
 
+	// Basically it selects a char and then chooses another char without replacement
+	// until there are no chars left
+	public static void findPermutations(String str, String permutation) {
+		if (str.length() == 0) {
+			System.out.println(permutation);
+			return;
+		}
+		for (int i = 0; i < str.length(); i++) {
+			String remaining = str.substring(0, i) + str.substring(i + 1);
+			findPermutations(remaining, permutation + str.charAt(i));
+		}
 	}
 
 	// Performs a mergeSort on the given array of ints
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void mergeSort(int[] ints) {
+		sort(ints, 0, ints.length - 1);
+	}
 
+	// do a binary split on the array with startIndex and an endIndex until you have
+	// one value left in each subarray
+	// and then you merge all of the subarrays together in a sorted order
+	public static void sort(int[] ints, int startIndex, int endIndex) {
+		if (startIndex >= endIndex) {
+			return;
+		}
+		int mid = startIndex + (endIndex - startIndex) / 2;
+		sort(ints, startIndex, mid);
+		sort(ints, mid + 1, startIndex);
+		merge(ints, startIndex, mid, endIndex);
+	}
+
+	// for each array if one value if less than the other that value is added before
+	// the other value (and vice versa). we start at the startIndex and then end at
+	// the endIndex, where the middleIndex is where the two sets are split
+	public static void merge(int[] ints, int startIndex, int middleIndex, int endIndex) {
+		int[] temp = new int[endIndex - startIndex + 1];
+		int i = startIndex;
+		int j = middleIndex + 1;
+		int k = 0;
+		while (i <= middleIndex && j <= endIndex) {
+			if (ints[i] <= ints[j]) {
+				temp[k++] = ints[i++];
+			} else {
+				temp[k++] = ints[j++];
+			}
+		}
+		while (i <= middleIndex) {
+			temp[k++] = ints[i++];
+		}
+		while (j <= endIndex) {
+			temp[k++] = ints[j++];
+		}
+		for (int l = 0; l < temp.length; l++) {
+			ints[startIndex + l] = temp[l];
+		}
 	}
 
 	// Performs a quickSort on the given array of ints
