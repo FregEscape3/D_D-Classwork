@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Recursion {
 
 	// Prints the value of every node in the singly linked list with the given head,
@@ -129,7 +131,7 @@ public class Recursion {
 		}
 		int mid = startIndex + (endIndex - startIndex) / 2;
 		sort(ints, startIndex, mid);
-		sort(ints, mid + 1, startIndex);
+		sort(ints, mid + 1, endIndex);
 		merge(ints, startIndex, mid, endIndex);
 	}
 
@@ -163,8 +165,37 @@ public class Recursion {
 	// Use the middle element (index n/2) as the pivot
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void quickSort(int[] ints) {
-
+		quicklySort(ints, 0, ints.length - 1);
 	}
+
+	// defines the pivot, and does the sorting/swapping with the two indices, then
+	// calls it on the left and right ends
+	public static void quicklySort(int[] ints, int startIndex, int endIndex) {
+		if (startIndex >= endIndex)
+			return;
+		int pivot = ints[startIndex + (endIndex - startIndex + 1) / 2];
+		int left = startIndex;
+		int right = endIndex;
+		while (left <= right) {
+			while (ints[left] < pivot)
+				left++;
+			while (ints[right] > pivot)
+				right--;
+			if (left <= right) {
+				int temp = ints[left];
+				ints[left] = ints[right];
+				ints[right] = temp;
+				left++;
+				right--;
+			}
+		}
+		quicklySort(ints, startIndex, right);
+		quicklySort(ints, left, endIndex);
+	}
+
+	// three indices: one at pivot, one at start, one at end
+	// if one is in right place then no switch, if two not in the right then swap
+	// both. if one is in the right place indices move to the next one
 
 	// Prints a sequence of moves (one on each line)
 	// to complete a Towers of Hanoi problem:
@@ -173,7 +204,21 @@ public class Recursion {
 	// the form "1 -> 2", meaning "take the top disk of tower 1 and
 	// put it on tower 2" etc.
 	public static void solveHanoi(int startingDisks) {
+		hanoi(startingDisks, 0, 1, 2);
+	}
 
+	// Prints the moves to transfer numDisks disks from source to target,
+	// using extra as the spare tower
+	// Otherwise, move the smaller disks to extra, move the largest disk to target,
+	// then move the smaller disks from extra to target. The recursive calls swap
+	// the tower roles so each smaller stack has the right spare and destination
+	public static void hanoi(int numDisks, int source, int extra, int target) {
+		if (numDisks <= 0) {
+			return;
+		}
+		hanoi(numDisks - 1, source, target, extra);
+		System.out.println(source + " -> " + target);
+		hanoi(numDisks - 1, extra, source, target);
 	}
 
 	// You are partaking in a scavenger hunt!
@@ -196,7 +241,56 @@ public class Recursion {
 	// time 9
 	// for a total of 20 points, so it would return 20.
 	public static int scavHunt(int[] times, int[] points) {
+		ArrayList<int[]> nodes = new ArrayList<>();
+		nodes.add(new int[] { 0, 0, 0 });
+		for (int i = 0; i < times.length; i++) {
+			nodes.add(new int[] { times[i], points[i], i + 1 });
+		}
+		nodes.add(new int[] { 0, 0, times.length + 1 });
+		int[] scores = new int[nodes.size()];
+		for (int i = 0; i < scores.length; i++) {
+			scores[i] = Integer.MIN_VALUE;
+		}
+		scores[0] = 0;
+		return findPath(connectNodes(nodes), scores, 0, 0, nodes.size() - 1);
+	}
 
+	// Returns {from, to, points earned} edges for nodes holding {time, points, id}
+	// (basically creating an ArrayList of edges)
+	public static ArrayList<int[]> connectNodes(ArrayList<int[]> nodes) {
+		ArrayList<int[]> connections = new ArrayList<>();
+		int end = nodes.size() - 1;
+		for (int i = 1; i < end; i++) {
+			connections.add(new int[] { 0, nodes.get(i)[2], nodes.get(i)[1] });
+		}
+		connections.add(new int[] { 0, nodes.get(end)[2], 0 });
+		for (int i = 1; i < end; i++) {
+			for (int j = i + 1; j < end; j++) {
+				if (nodes.get(j)[0] - nodes.get(i)[0] >= 5) {
+					connections.add(new int[] { nodes.get(i)[2], nodes.get(j)[2], nodes.get(j)[1] });
+				}
+			}
+			connections.add(new int[] { nodes.get(i)[2], nodes.get(end)[2], 0 });
+		}
+		return connections;
+	}
+
+	// Returns the best score at exitNode by recursively processing currentNode in
+	// time order, connections are grouped by source; scores tracks best totals, and
+	// edgeIndex marks the next edge
+	// basically running a max djikstra's on the scavHunt on each end and keep going
+	// to the last node
+	public static int findPath(ArrayList<int[]> connections, int[] scores, int currentNode, int edgeIndex,
+			int exitNode) {
+		if (currentNode == exitNode) {
+			return scores[exitNode];
+		}
+		while (edgeIndex < connections.size() && connections.get(edgeIndex)[0] == currentNode) {
+			int[] edge = connections.get(edgeIndex);
+			scores[edge[1]] = Math.max(scores[edge[1]], scores[currentNode] + edge[2]);
+			edgeIndex++;
+		}
+		return findPath(connections, scores, currentNode + 1, edgeIndex, exitNode);
 	}
 
 }
