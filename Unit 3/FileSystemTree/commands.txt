@@ -1,0 +1,8 @@
+mkdir docs
+mkdir src
+touch main.java 120
+touch README.md 80
+depth
+height
+size
+count
