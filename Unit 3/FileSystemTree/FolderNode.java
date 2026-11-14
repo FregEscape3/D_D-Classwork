@@ -79,10 +79,12 @@ public class FolderNode extends FileSystemNode {
      */
     public boolean containsNameRecursive(String searchName) {
         if (getName().equals(searchName)) {
+            this.toString();
             return true;
         }
         for (FileSystemNode child : children) {
             if (child.getName().equals(searchName)) {
+                child.toString();
                 return true;
             }
             if (child.isFolder() && ((FolderNode) child).containsNameRecursive(searchName)) {

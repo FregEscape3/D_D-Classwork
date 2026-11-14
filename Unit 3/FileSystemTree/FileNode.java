@@ -19,13 +19,6 @@ public class FileNode extends FileSystemNode {
         return false;
     }
 
-    /**
-     * Returns the stored size for this file.
-     */
-    public int getFileSize() {
-        return size;
-    }
-
     @Override
     public int getHeight() {
         // Files are leaf nodes and therefore have value 0.
